@@ -14,8 +14,8 @@ function App() {
       <Router>
         <Sidebar />
         <Routes>
-          <Route path="/Translate" exact component={Translate} />
-          <Route path="/Flashcards" component={Flashcards} />
+          <Route path="/Translate" element={<Translate />} />
+          <Route path="/Flashcards" element={<Flashcards />} />
         </Routes>
       </Router>
       <FlashcardList flashcards={flashcards} />
