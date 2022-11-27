@@ -1,10 +1,9 @@
 import React from "react";
 
-function Flashcards() {
+function Flashcards({ flashcard }) {
     return (
         <div className="page">
-            <h1>Flashcards</h1>
-            <p>These are the flashcards.</p>
+            {flashcard.question}
         </div>
     );
 }
