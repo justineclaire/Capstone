@@ -1,14 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Translate from "./Pages/Translate";
 import Flashcards from "./Pages/Flashcards";
 import Sidebar from "./Components/Sidebar";
-import FlashcardList from './Pages/FlashcardList';
+
 
 function App() {
-  const [flashcards, setFlashcards] = useState(TEST_FLASHCARDS)
   return (
     <>
       <Router>
@@ -18,7 +17,6 @@ function App() {
           <Route path="/Flashcards" element={<Flashcards />} />
         </Routes>
       </Router>
-      <FlashcardList flashcards={flashcards} />
     </>
     // <div className="App">
     //   <header className="App-header">
@@ -38,26 +36,5 @@ function App() {
     // </div>
   ); 
 }
-
-const TEST_FLASHCARDS = [
-  {
-    id: 1,
-    question: 'What is the name of the leader of TWICE',
-    answer: 'Jihyo',
-    options: ['Mina', 'Momo', 'Jihyo', 'Sana']
-  },
-  {
-    id: 2,
-    question: 'What is the meaning of the word 막내 (maknae)',
-    answer: 'Youngest',
-    options: ['Oldest', 'Aquaintance', 'Friend', 'Youngest']
-  },
-  {
-    id: 3,
-    question: 'What is the birth day of Jin from BTS',
-    answer: 'Jihyo',
-    options: ['24', '9', '4', '8']
-  }
-]
 
 export default App;
