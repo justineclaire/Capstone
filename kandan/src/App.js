@@ -3,6 +3,7 @@ import './App.css';
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Translate from "./Pages/Translate";
+import Login from "./Pages/Login";
 import Flashcards from "./Pages/Flashcards";
 import Sidebar from "./Components/Sidebar";
 
@@ -13,6 +14,7 @@ function App() {
       <Router>
         <Sidebar />
         <Routes>
+          <Route path="/Login" element={<Login />} />
           <Route path="/Translate" element={<Translate />} />
           <Route path="/Flashcards" element={<Flashcards />} />
         </Routes>

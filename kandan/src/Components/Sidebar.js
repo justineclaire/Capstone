@@ -11,6 +11,7 @@ function Sidebar() {
           <div></div>
         </button>
         <ul onClick={showSidebar}>
+          <li><Link to="/Login">Login or Signup</Link></li>
           <li><Link to="/Translate">Translate</Link></li>
           <li><Link to="/Flashcards">Flashcards</Link></li>
         </ul>
