@@ -4,9 +4,12 @@ import {
     Form,
     TextArea,
     Button,
-    Icon
+    Icon,
+    Segment
 } from 'semantic-ui-react';
-
+import { auth } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import {db} from '../firebase';
 
 
 export default function Translate() {
@@ -52,15 +55,15 @@ export default function Translate() {
         })
     }
 
+    const addFC = async (e) => {
+    
+    }
+
 
     return (
         <div>
-            <div className="app-header">
-                <h2 className="header">Kandan Translator</h2>
-            </div>
-
             <div className='app-body'>
-                <div>
+                <div className='container'>
                    <Form>
                     <Form.Field
                        control={TextArea}
@@ -84,13 +87,24 @@ export default function Translate() {
                             value={resultText}
                         />
 
+                        <Segment.Inline>
                         <Button
-                            color= "green"
+                            color= "olive"
                             size="large"
                             onClick={translateText}
                         >
                             <Icon name='translate' />
                             Translate</Button>
+                    
+                        <Button 
+                            color= "green"
+                            size="large"
+                        >
+                            Create flashcard from translation
+                        </Button>
+
+                        </Segment.Inline>
+                        
                     </Form>
                 </div>
             </div>

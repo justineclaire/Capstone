@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, } from 'firebase/auth';
 import { auth } from "../firebase";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import {db} from '../firebase';
+
 
 export default function Login() {
 
@@ -15,17 +18,28 @@ export default function Login() {
             setUser(currentUser);
         });
     }, []);
+
+  
+    let [authMode, setAuthMode] = useState("signin")
+    
+    const changeAuthMode = () => {
+        setAuthMode(authMode === "signin" ? "signup" : "signin")
+    }
     
 
     const register = async () => {
-        try {
-        const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-            console.log(user);
-        } catch (error) {
-            console.log(error.message);
-        }
-        
-    }; 
+      try {
+        const res = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+        const user = res.user;
+        await setDoc(doc(collection(db, "users")), {
+          email: user.email,
+          uid: user.uid
+        });
+        console.log("Document added successfully!");
+      } catch (error) {
+        console.log("Error adding document: ", error);
+      }
+    };
 
     const login = async () => {
         try {
@@ -35,68 +49,119 @@ export default function Login() {
             console.log(error.message);
         }
     };
+    
+    /*const testfc = async () => {
+      try {
+        await setDoc(doc(collection(db, "flashcards")), {
+          UID: '2cIHzUhzzbYfEvU9TzRcx89kaO23',
+          lang1: 'french',
+          lang2: 'english',
+          side1: 'bonsoir',
+          side2: 'good evening'
+        });
+        console.log("Document added successfully!");
+      } catch (error) {
+        console.log("Error adding document: ", error);
+      }
+    };*/
 
     const logout = async () => {
         await signOut(auth);
     };
     
-    return (
-        <div>
-            <div className="app-header">
-                <h2 className="header">Kandan Translator</h2>
+    if (authMode === "signin") {
+        return (
+          <div className="Auth-form-container">
+            <form className="Auth-form">
+              <div className="Auth-form-content">
+                <h3 className="Auth-form-title">Sign In</h3>
+                <div className="text-center">
+                  Not registered yet?{" "}
+                  <span className="link-primary" onClick={changeAuthMode}>
+                    Sign Up
+                  </span>
+                </div>
+                <div className="form-group mt-3">
+                  <label>Email address</label>
+                  <input
+                    type="email"
+                    className="form-control mt-1"
+                    value={loginEmail}
+                    placeholder="Email..." 
+                    onChange={(event) => {
+                        setLoginEmail(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="form-group mt-3">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    className="form-control mt-1"
+                    value={loginPassword}
+                    placeholder="Password..."
+                    onChange={(event) => {
+                        setLoginPassword(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="d-grid gap-2 mt-3">
+                  <button type="submit" className="btn btn-primary" onClick={login}>
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        )
+      }
+
+      return (
+        
+        <div className="Auth-form-container">
+            
+          <form className="Auth-form">
+            <div className="Auth-form-content">
+              <h3 className="Auth-form-title">Sign In</h3>
+              <div className="text-center">
+                Already registered?{" "}
+                <span className="link-primary" onClick={changeAuthMode}>
+                  Sign In
+                </span>
+              </div>
+              
+              <div className="form-group mt-3">
+                <label>Email address</label>
+                <input
+                  type="email"
+                  className="form-control mt-1"
+                  value={registerEmail}
+                    placeholder="Email..." 
+                    onChange={(event) => {
+                        setRegisterEmail(event.target.value);
+                    }}
+                />
+              </div>
+              <div className="form-group mt-3">
+                <label>Password</label>
+                <input
+                  type="password"
+                  className="form-control mt-1"
+                  value={registerPassword}
+                  placeholder="Password..."
+                  autoComplete='new-password'
+                  onChange={(event) => {
+                      setRegisterPassword(event.target.value);
+                  }}
+                />
+              </div>
+              <div className="d-grid gap-2 mt-3">
+                <button type="submit" className="btn btn-primary" onClick={register}>
+                  Register
+                </button>
+              </div>
             </div>
-
-            <div className='app-body'>
-                <div className='register-user'>
-                    <h3> Register User </h3>
-                    <input 
-                        value={registerEmail}
-                        placeholder="Email..." 
-                        onChange={(event) => {
-                            setRegisterEmail(event.target.value);
-                        }}   
-                    />
-                    <input 
-                        value={registerPassword}
-                        placeholder="Password..."
-                        onChange={(event) => {
-                            setRegisterPassword(event.target.value);
-                        }}
-                    />
-
-                    <button onClick={register}> Create User </button>
-                </div>
-
-                <div className='login-user'>
-                    <h3> Existing User Login </h3>
-                    <input 
-                        value={loginEmail}
-                        placeholder="Email..." 
-                        onChange={(event) => {
-                            setLoginEmail(event.target.value);
-                        }}
-                    />
-                    <input 
-                        value={loginPassword}
-                        placeholder="Password..."
-                        onChange={(event) => {
-                            setLoginPassword(event.target.value);
-                        }}
-                    />
-
-                    <button onClick={login}> Login </button>
-                </div>
-
-                <div>
-                    <h4> User logged in: </h4>
-                    {user?.email}
-                </div>
-                
-                <div>
-                    <button onClick={logout}> Sign Out </button>
-                </div>
-            </div>
+          </form>
         </div>
-    )
-
+      )
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Sidebar.css";
+import "../App.css";
 
 function Sidebar() {
     const [sidebar, setSidebar] = useState(false);
