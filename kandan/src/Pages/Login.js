@@ -1,154 +1,167 @@
- import { useState, useEffect } from "react";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
-import "../App.css";
+import React, { useState, useEffect } from 'react';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, } from 'firebase/auth';
 import { auth } from "../firebase";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import {db} from '../firebase';
 
-function Login() {
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
 
-  const [user, setUser] = useState({});
+export default function Login() {
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      console.log(currentUser);
-    });
+    const [registerEmail, setRegisterEmail] = useState("");
+    const [registerPassword, setRegisterPassword] = useState("");
+    const [loginEmail, setLoginEmail] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    const [user, setUser] = useState({});
+    useEffect(() => {
+        onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+    }, []);
 
-  const register = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-      console.log(user);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
-      console.log(user);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const logout = async () => {
-    await signOut(auth);
-  };
-
-  let [authMode, setAuthMode] = useState("signin")
+  
+    let [authMode, setAuthMode] = useState("signin")
     
     const changeAuthMode = () => {
         setAuthMode(authMode === "signin" ? "signup" : "signin")
     }
+    
 
+    const register = async () => {
+      try {
+        const res = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+        const user = res.user;
+        await setDoc(doc(collection(db, "users")), {
+          email: user.email,
+          uid: user.uid
+        });
+        console.log("Document added successfully!");
+      } catch (error) {
+        console.log("Error adding document: ", error);
+      }
+    };
+
+    const login = async () => {
+        try {
+        const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+            console.log(user);
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+    
+    /*const testfc = async () => {
+      try {
+        await setDoc(doc(collection(db, "flashcards")), {
+          UID: '2cIHzUhzzbYfEvU9TzRcx89kaO23',
+          lang1: 'french',
+          lang2: 'english',
+          side1: 'bonsoir',
+          side2: 'good evening'
+        });
+        console.log("Document added successfully!");
+      } catch (error) {
+        console.log("Error adding document: ", error);
+      }
+    };*/
+
+    const logout = async () => {
+        await signOut(auth);
+    };
+    
     if (authMode === "signin") {
+        return (
+          <div className="Auth-form-container">
+            <form className="Auth-form">
+              <div className="Auth-form-content">
+                <h3 className="Auth-form-title">Sign In</h3>
+                <div className="text-center">
+                  Not registered yet?{" "}
+                  <span className="link-primary" onClick={changeAuthMode}>
+                    Sign Up
+                  </span>
+                </div>
+                <div className="form-group mt-3">
+                  <label>Email address</label>
+                  <input
+                    type="email"
+                    className="form-control mt-1"
+                    value={loginEmail}
+                    placeholder="Email..." 
+                    onChange={(event) => {
+                        setLoginEmail(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="form-group mt-3">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    className="form-control mt-1"
+                    value={loginPassword}
+                    placeholder="Password..."
+                    onChange={(event) => {
+                        setLoginPassword(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="d-grid gap-2 mt-3">
+                  <button type="submit" className="btn btn-primary" onClick={login}>
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        )
+      }
+
       return (
+        
         <div className="Auth-form-container">
+            
           <form className="Auth-form">
             <div className="Auth-form-content">
               <h3 className="Auth-form-title">Sign In</h3>
               <div className="text-center">
-                Not registered yet?{" "}
+                Already registered?{" "}
                 <span className="link-primary" onClick={changeAuthMode}>
-                  Sign Up
+                  Sign In
                 </span>
               </div>
+              
               <div className="form-group mt-3">
                 <label>Email address</label>
                 <input
-                  className='form-control mt-1'
-                  placeholder="Email..."
-                  onChange={(event) => {
-                      setLoginEmail(event.target.value);
-                  }}
-                  />
+                  type="email"
+                  className="form-control mt-1"
+                  value={registerEmail}
+                    placeholder="Email..." 
+                    onChange={(event) => {
+                        setRegisterEmail(event.target.value);
+                    }}
+                />
               </div>
               <div className="form-group mt-3">
                 <label>Password</label>
                 <input
-                  className='form-control mt-1'
+                  type="password"
+                  className="form-control mt-1"
+                  value={registerPassword}
                   placeholder="Password..."
+                  autoComplete='new-password'
                   onChange={(event) => {
-                      setLoginPassword(event.target.value);
+                      setRegisterPassword(event.target.value);
                   }}
-                  />
+                />
               </div>
               <div className="d-grid gap-2 mt-3">
-                <button type="button" className="btn btn-primary" onClick={login}>
-                  Login
+                <button type="submit" className="btn btn-primary" onClick={register}>
+                  Register
                 </button>
-                <h4> User Logged In: </h4>
-                {user?.email}
               </div>
             </div>
           </form>
         </div>
       )
-    }
-
-    return (
-        
-      <div className="Auth-form-container">
-          
-        <form className="Auth-form">
-          <div className="Auth-form-content">
-            <h3 className="Auth-form-title">Sign In</h3>
-            <div className="text-center">
-              Already registered?{" "}
-              <span className="link-primary" onClick={changeAuthMode}>
-                Sign In
-              </span>
-            </div>
-            
-            <div className="form-group mt-3">
-              <label>Email address</label>
-              <input placeholder='Email...' type='email'
-                  className='form-control mt-1' onChange={(event) => setRegisterEmail(event.target.value)}/>
-            </div>
-            <div className="form-group mt-3">
-              <label>Password</label>
-              <input
-                type="password"
-                className="form-control mt-1"
-                placeholder="Password..."
-                onChange={(event) => {
-                    setRegisterPassword(event.target.value);
-                }}
-              />
-            </div>
-            <div className="d-grid gap-2 mt-3">
-              <button className="btn btn-primary" onClick={register}>
-                Register
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    )
-    //ahhhh
- 
 }
-
-export default Login;
