@@ -8,6 +8,7 @@ import {
     Segment,
     Message
 } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { auth } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from '../firebase';
@@ -134,6 +135,12 @@ export default function Translate() {
                             >
                                 Create flashcard from translation
                             </Button>
+                            <Link to="/Newcard">
+                            <Button
+                             color="olive"
+                             size="large"
+                            >Manually Create Flashcard</Button>
+                            </Link>
                         </Segment.Inline>
 
                     </Form>
