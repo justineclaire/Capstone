@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import Logo from './Logo.png';
 import { auth } from '../firebase';
 
+export const getCurrentUserEmail = () => {
+  const user = auth.currentUser;
+  return user ? user.email : null;
+};
+
+export const signOut = () => {
+    return auth.signOut();
+};
+
+export const isUserLoggedIn = () => {
+const currentUser = auth.currentUser;
+return currentUser !== null;
+};
 function Header() {
-  const [currentUserEmail, setCurrentUserEmail] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setCurrentUserEmail(user.email);
-      } else {
-        setCurrentUserEmail(null);
-      }
-    });
-
-    return () => {
-      unsubscribe(); // Unsubscribe from the listener when the component unmounts
-    };
-  }, []);
+  const currentUserEmail = getCurrentUserEmail();
 
   const handleLogout = () => {
     auth.signOut();
