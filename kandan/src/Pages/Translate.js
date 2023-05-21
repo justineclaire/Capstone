@@ -5,37 +5,39 @@ import {
     TextArea,
     Button,
     Icon,
-    Segment
+    Segment,
+    Message
 } from 'semantic-ui-react';
 import { auth } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import {db} from '../firebase';
+import { db } from '../firebase';
 
 
 export default function Translate() {
     const [inputText, setInputText] = useState('');
-    const [detectLanguageKey, setdetectedLanguageKey] = useState('');
+    const [detectLanguageKey, setDetectedLanguageKey] = useState('');
     const [selectedLanguageKey, setLanguageKey] = useState('')
     const [languagesList, setLanguagesList] = useState([])
     const [resultText, setResultText] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const getLanguageSource = () => {
         axios.post(`https://libretranslate.de/detect`, {
             q: inputText
         })
             .then((response) => {
-                setdetectedLanguageKey(response.data[0].language)
+                setDetectedLanguageKey(response.data[0].language)
             })
     }
 
     useEffect(() => {
         axios.get(`https://libretranslate.de/languages`)
         .then((response) => {
-         setLanguagesList(response.data)
+            setLanguagesList(response.data)
         })
- 
-        getLanguageSource()
-     }, [inputText])
+
+        getLanguageSource();
+    }, [inputText])
 
     const languageKey = (selectedLanguage) => {
         setLanguageKey(selectedLanguage.target.value)
@@ -45,18 +47,39 @@ export default function Translate() {
         getLanguageSource();
 
         let data = {
-            q : inputText,
+            q: inputText,
             source: detectLanguageKey,
             target: selectedLanguageKey
         }
         axios.post(`https://libretranslate.de/translate`, data)
-        .then((response) => {
-            setResultText(response.data.translatedText)
-        })
+            .then((response) => {
+                setResultText(response.data.translatedText)
+            })
     }
 
     const addFC = async (e) => {
-    
+        e.preventDefault();
+
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+            setErrorMessage("Please login first");
+            return;
+        }
+
+        const flashcard = {
+            UID: currentUser.uid,
+            lang1: detectLanguageKey,
+            lang2: selectedLanguageKey,
+            side1: inputText,
+            side2: resultText
+        };
+
+        try {
+            await addDoc(collection(db, "flashcards"), flashcard);
+            console.log("Flashcard added successfully");
+        } catch (error) {
+            console.error("Error adding flashcard: ", error);
+        }
     }
 
 
@@ -64,17 +87,18 @@ export default function Translate() {
         <div>
             <div className='app-body'>
                 <div className='container'>
-                   <Form>
-                    <Form.Field
-                       control={TextArea}
-                        placeholder='Type Text to Translate..'
-                        onChange={(e) => setInputText(e.target.value)}/>
+                    <Form>
+                        <Form.Field
+                            control={TextArea}
+                            placeholder='Type Text to Translate..'
+                            onChange={(e) => setInputText(e.target.value)}
+                        />
 
                         <select className="language-select" onChange={languageKey}>
                             <option>Please Select Language..</option>
                             {languagesList.map((language) => {
                                 return (
-                                    <option value={language.code}>
+                                    <option value={language.code} key={language.code}>
                                         {language.name}
                                     </option>
                                 )
@@ -87,24 +111,31 @@ export default function Translate() {
                             value={resultText}
                         />
 
-                        <Segment.Inline>
-                        <Button
-                            color= "olive"
-                            size="large"
-                            onClick={translateText}
-                        >
-                            <Icon name='translate' />
-                            Translate</Button>
-                    
-                        <Button 
-                            color= "green"
-                            size="large"
-                        >
-                            Create flashcard from translation
-                        </Button>
+                        {errorMessage && (
+                            <Message color='red'>
+                                {errorMessage}
+                            </Message>
+                        )}
 
+                        <Segment.Inline>
+                            <Button
+                                color="olive"
+                                size="large"
+                                onClick={translateText}
+                            >
+                                <Icon name='translate' />
+                                Translate
+                            </Button>
+
+                            <Button
+                                color="green"
+                                size="large"
+                                onClick={addFC}
+                            >
+                                Create flashcard from translation
+                            </Button>
                         </Segment.Inline>
-                        
+
                     </Form>
                 </div>
             </div>
