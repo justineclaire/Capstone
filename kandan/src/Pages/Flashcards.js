@@ -40,10 +40,12 @@ function Flashcards() {
           alang: doc.data().lang2,
           question: doc.data().side1,
           answer: doc.data().side2,
-          Box: doc.data().Box,
+          box: doc.data().Box,
           id: doc.id
         }));
 
+        // Sort the flashcards by box value in ascending order
+        fetchedFlashcards.sort((a, b) => a.box - b.box);
         setFlashcards(fetchedFlashcards);
         setFlashcardsLoaded(true); // Set the flag to indicate flashcards have been loaded
       } catch (error) {
@@ -69,7 +71,7 @@ function Flashcards() {
 
   return (
     <div className="mycontainer">
-      <FlashcardList flashcards={flashcards} />
+      <FlashcardList flashcards={flashcards} setFlashcards={setFlashcards} />
     </div>
     
   );
