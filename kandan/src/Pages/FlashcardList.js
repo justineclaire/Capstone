@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import FlashcardQA from "./FlashcardQA";
+import { Icon } from 'semantic-ui-react';
 import { collection, updateDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -138,11 +139,12 @@ function FlashcardList({ flashcards, setFlashcards }) {
       )}
 
       <div className="mycard-navigation">
-        <button className="prevnext" onClick={handlePrevFlashcard}>Previous</button>
-        <button className="prevnext" onClick={handleNextFlashcard}>Next</button>
-        <button className="prevnext" onClick={handleIncrement}>Correct</button> 
-        <button className="prevnext" onClick={handleDecrement}>Incorrect</button>
-      </div>
+        <button className="prevnext" onClick={handlePrevFlashcard}><Icon name='angle double left' />Previous</button>
+        <button className="prevnext" onClick={handleNextFlashcard}>Next <Icon name='angle double right' /></button>
+        <button className="myincr" onClick={handleIncrement}><Icon name='check' />Correct</button> 
+        <button className="mydecr" onClick={handleDecrement}><Icon name='x' />Incorrect</button>
+      </div>  
+
     </div>
   );
 

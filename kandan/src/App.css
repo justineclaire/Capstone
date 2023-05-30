@@ -151,7 +151,7 @@ hr.solid {
 }
 
 .sidebar li a:hover {
-  background-color: #cfcfcf;
+  background-color: #e3f477;
  	color: black;
 }
 
@@ -387,6 +387,36 @@ label {
 	padding: 0.6vw;
 }
 
+.myincr {
+  transition-duration: 0.2s;
+  background-color: green;
+	color: white;
+	border: 2px solid black;
+	border-radius: 1px;
+	margin-left: 0.3vw;
+	margin-right: 0.3vw;
+	padding: 0.6vw;
+}
+
+.mydecr {
+  transition-duration: 0.2s;
+  background-color: red;
+	color: white;
+	border: 2px solid black;
+	border-radius: 1px;
+	margin-left: 0.3vw;
+	margin-right: 0.3vw;
+	padding: 0.6vw;
+}
+
 .prevnext:hover {
+	transform: scale(1.1);
+}
+
+.myincr:hover {
+	transform: scale(1.1);
+}
+
+.mydecr:hover {
 	transform: scale(1.1);
 }
