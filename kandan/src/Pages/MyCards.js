@@ -44,9 +44,8 @@ function Flashcards() {
           id: doc.id
         }));
 
-        // Sort the flashcards by box value in ascending order
-        const sortedFlashcards = fetchedFlashcards.sort((a, b) => a.box - b.box);
-        setFlashcards(sortedFlashcards);
+       
+        setFlashcards(fetchedFlashcards);
         setFlashcardsLoaded(true); // Set the flag to indicate flashcards have been loaded
       } catch (error) {
         console.error("Error fetching flashcards:", error);
@@ -65,13 +64,18 @@ function Flashcards() {
 
   if (!user) {
     // Display a message when user is not logged in
-    return <div className="notlog">Please login to view your flashcards.</div>;
+    return <div>Please login to view your flashcards.</div>;
   }
 
 
   return (
-    <div className="mycontainer">
-      <FlashcardList flashcards={flashcards} setFlashcards={setFlashcards} />
+    <div>
+      {flashcards.map((flashcard) => (
+        <div key={flashcard.id}>
+          <span>{flashcard.qlang} : {flashcard.question}</span>
+          <span>{flashcard.alang} : {flashcard.answer}</span>
+        </div>
+      ))}
     </div>
     
   );
