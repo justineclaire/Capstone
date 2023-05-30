@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import FlashcardQA from "./FlashcardQA";
-import { Icon } from 'semantic-ui-react';
+import { Icon, Input } from 'semantic-ui-react';
 import { collection, updateDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -10,6 +10,9 @@ import { onAuthStateChanged } from 'firebase/auth';
 function FlashcardList({ flashcards, setFlashcards }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [user, setUser] = useState('');
+    const [selectedLanguage, setSelectedLanguage] = useState('');
+    const [filteredFlashcards, setFilteredFlashcards] = useState([]);
+
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -21,6 +24,14 @@ function FlashcardList({ flashcards, setFlashcards }) {
         };
       }, []);
 
+    useEffect(() => {
+        const filteredFlashcards = flashcards.filter((flashcard) =>
+            selectedLanguage
+            ? flashcard.qlang === selectedLanguage || flashcard.alang === selectedLanguage
+            : true
+        );
+        setFilteredFlashcards(filteredFlashcards);
+    }, [flashcards, selectedLanguage]);
     const handlePrevFlashcard = () => {
         setCurrentIndex((prevIndex) => (prevIndex === 0 ? flashcards.length - 1 : prevIndex - 1));
       };
@@ -132,8 +143,8 @@ function FlashcardList({ flashcards, setFlashcards }) {
   const sortedFlashcards = [flashcards].sort((a, b) => a.box - b.box);
   return (
     <div className="mycard-grid">
-      {flashcards.length > 0 ? (
-        <FlashcardQA flashcards={flashcards[currentIndex]} />
+      {filteredFlashcards.length > 0 ? (
+        <FlashcardQA flashcards={filteredFlashcards[currentIndex]} />
       ) : (
         <p>No flashcards available.</p>
       )}
@@ -143,7 +154,14 @@ function FlashcardList({ flashcards, setFlashcards }) {
         <button className="prevnext" onClick={handleNextFlashcard}>Next <Icon name='angle double right' /></button>
         <button className="myincr" onClick={handleIncrement}><Icon name='check' />Correct</button> 
         <button className="mydecr" onClick={handleDecrement}><Icon name='x' />Incorrect</button>
+        <Input
+        className="prevnext"
+        placeholder="Search by language"
+        value={selectedLanguage}
+        onChange={(e) => setSelectedLanguage(e.target.value)}
+      />
       </div>  
+      
 
     </div>
   );
