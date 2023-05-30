@@ -6,6 +6,8 @@ import Login from "./Pages/Login";
 import Flashcards from "./Pages/Flashcards";
 import Sidebar from "./Components/Sidebar";
 import Header from "./Components/Header";
+import Newcard from "./Pages/Newcard";
+import HomePage from "./Pages/Homepage";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
@@ -16,10 +18,12 @@ function App() {
         <Header />
         <Sidebar />
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/App" element={<App />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Translate" element={<Translate />} />
           <Route path="/Flashcards" element={<Flashcards />} />
+          <Route path="/Newcard" element={<Newcard />} />
         </Routes>
       </Router>
     </>
