@@ -7,13 +7,14 @@ import {
 } from "firebase/auth";
 import "../App.css";
 import { auth } from "../firebase";
+import { Message } from 'semantic-ui-react';
 
 function Login() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-
+  const [errorMessage, setErrorMessage] = useState("");
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -35,8 +36,19 @@ function Login() {
         registerPassword
       );
       console.log(user);
+      setErrorMessage('');
     } catch (error) {
       console.log(error.message);
+      if (error.code === "auth/email-already-in-use") {
+        setErrorMessage("The email address is already in use");
+      } else if (error.code === "auth/invalid-email") {
+        setErrorMessage("The email address is not valid.");
+         
+      } else if (error.code === "auth/operation-not-allowed") {
+        setErrorMessage("Operation not allowed.");
+      } else if (error.code === "auth/weak-password") {
+        setErrorMessage("The password is too weak.");
+      }
     }
   };
 
@@ -48,8 +60,18 @@ function Login() {
         loginPassword
       );
       console.log(user);
+      setErrorMessage('');
     } catch (error) {
       console.log(error.message);
+      if (error.code === "auth/user-not-found") {
+        setErrorMessage("This email does not have an account, please sign up");
+      } else if (error.code === "auth/invalid-email") {
+        setErrorMessage("The email address is not valid.");
+      } else if (error.code === "auth/operation-not-allowed") {
+        setErrorMessage("Operation not allowed.");
+      } else if (error.code === "auth/wrong-password") {
+        setErrorMessage("Incorrect password please try again");
+      }
     }
   };
 
@@ -91,6 +113,7 @@ function Login() {
                   className='form-control mt-1'
                   type="password"
                   placeholder="Password..."
+                  type="password"
                   onChange={(event) => {
                       setLoginPassword(event.target.value);
                   }}
@@ -100,8 +123,13 @@ function Login() {
                 <button type="button" className="btn btn-primary" onClick={login}>
                   Login
                 </button>
-                <h4> User Logged In: </h4>
-                {user?.email}
+                {errorMessage && (
+                <Message color='red'>
+                    {errorMessage}
+                </Message>
+                )}
+                {/*<h4> User Logged In: </h4>
+                {user?.email}*/}
               </div>
             </div>
           </form>
@@ -139,8 +167,13 @@ function Login() {
                 }}
               />
             </div>
+            {errorMessage && (
+                <Message color='red'>
+                    {errorMessage}
+                </Message>
+            )}
             <div className="d-grid gap-2 mt-3">
-              <button className="btn btn-primary" onClick={register}>
+              <button type="button" className="btn btn-primary" onClick={register}>
                 Register
               </button>
             </div>
