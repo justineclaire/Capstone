@@ -3,7 +3,7 @@ import FlashcardQA from "./FlashcardQA";
 
 function FlashcardList({ flashcards }) {
     return (
-        <div className="card-grid">
+        <div className="mycard-grid">
             {flashcards.map(flashcards => {
                 return <FlashcardQA flashcards={flashcards} key={flashcards.id} />
             })}

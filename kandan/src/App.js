@@ -6,6 +6,7 @@ import Login from "./Pages/Login";
 import Flashcards from "./Pages/Flashcards";
 import Sidebar from "./Components/Sidebar";
 import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 import Newcard from "./Pages/Newcard";
 import HomePage from "./Pages/Homepage";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/Flashcards" element={<Flashcards />} />
           <Route path="/Newcard" element={<Newcard />} />
         </Routes>
+        <Footer />
       </Router>
     </>
  
