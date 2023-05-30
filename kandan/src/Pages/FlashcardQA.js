@@ -8,7 +8,8 @@ function FlashcardQA({ flashcards }) {
         onClick={() => setFlip(!flip)}
         >
             <div className="front">
-                {flashcards.question}
+            {flashcards.question}
+            
             </div>
             <div className="back">{flashcards.answer}</div>
         </div>
