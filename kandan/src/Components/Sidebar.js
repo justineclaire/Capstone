@@ -14,7 +14,8 @@ function Sidebar() {
           <li><Link to="">Home Page</Link></li>
           <li><Link to="/Login">Login or Signup</Link></li>
           <li><Link to="/Translate">Translate</Link></li>
-          <li><Link to="/Flashcards">Flashcards</Link></li>
+          <li><Link to="/Flashcards">Study</Link></li>
+          <li><Link to="/MyCards">Flashcards</Link></li>
         </ul>
       </nav>
     );

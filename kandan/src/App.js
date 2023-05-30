@@ -9,6 +9,7 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Newcard from "./Pages/Newcard";
 import HomePage from "./Pages/Homepage";
+import MyCards from "./Pages/MyCards"
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/Translate" element={<Translate />} />
           <Route path="/Flashcards" element={<Flashcards />} />
           <Route path="/Newcard" element={<Newcard />} />
+          <Route path="/MyCards" element={<MyCards />} />
         </Routes>
         <Footer />
       </Router>

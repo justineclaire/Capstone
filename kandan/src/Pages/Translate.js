@@ -78,6 +78,7 @@ export default function Translate() {
           }
 
         const flashcard = {
+            Box: 1,
             UID: currentUser.uid,
             lang1: detectLanguageKey,
             lang2: selectedLanguageKey,
