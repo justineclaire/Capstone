@@ -11,6 +11,7 @@ function Sidebar() {
           <div></div>
         </button>
         <ul onClick={showSidebar}>
+          <li><Link to="/HomePage">Home Page</Link></li>
           <li><Link to="/Login">Login or Signup</Link></li>
           <li><Link to="/Translate">Translate</Link></li>
           <li><Link to="/Flashcards">Flashcards</Link></li>
@@ -20,3 +21,5 @@ function Sidebar() {
   }
   
   export default Sidebar;
+
+

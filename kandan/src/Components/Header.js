@@ -27,7 +27,7 @@ function Header() {
 
   return (
     <div className="app-header">
-      <Link to="/Login">
+      <Link to="/">
         <img id="header-logo" src={Logo} alt="Logo" />
       </Link>
       {currentUserEmail ? (

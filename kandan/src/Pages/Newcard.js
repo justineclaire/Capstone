@@ -31,6 +31,7 @@ function Newcard() {
 
     const flashcard = {
       UID: user.uid,
+      Box: 1,
       lang1,
       lang2,
       side1,
