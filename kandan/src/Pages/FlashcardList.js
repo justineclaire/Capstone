@@ -93,11 +93,18 @@ function FlashcardList({ flashcards, setFlashcards }) {
       ) : (
         <p>No flashcards available.</p>
       )}
+
+      <div className="mycard-navigation">
+        <button className="prevnext" onClick={handlePrevFlashcard}>Previous</button>
+        <button className="prevnext" onClick={handleNextFlashcard}>Next</button>
+
       <div className="card-navigation">
         <button onClick={handlePrevFlashcard}>Previous</button>
         <button onClick={handleNextFlashcard}>Next</button>
+
         <button onClick={handleIncrement}>Correct</button> 
         <button onClick={handleDecrement}>Incorrect</button>
+
       </div>
     </div>
   );
