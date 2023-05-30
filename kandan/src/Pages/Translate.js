@@ -21,6 +21,8 @@ export default function Translate() {
     const [languagesList, setLanguagesList] = useState([])
     const [resultText, setResultText] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage2, setErrorMessage2] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const getLanguageSource = () => {
         axios.post(`https://libretranslate.de/detect`, {
@@ -56,6 +58,9 @@ export default function Translate() {
             .then((response) => {
                 setResultText(response.data.translatedText)
             })
+
+        setErrorMessage2('');
+        setSuccessMessage('');
     }
 
     const addFC = async (e) => {
@@ -66,6 +71,11 @@ export default function Translate() {
             setErrorMessage("Please login first");
             return;
         }
+
+        if (!inputText || !resultText || !selectedLanguageKey) {
+            setErrorMessage2("Please fill in all the fields");
+            return;
+          }
 
         const flashcard = {
             UID: currentUser.uid,
@@ -78,6 +88,7 @@ export default function Translate() {
         try {
             await addDoc(collection(db, "flashcards"), flashcard);
             console.log("Flashcard added successfully");
+            setSuccessMessage("Flashcard created successfully");
         } catch (error) {
             console.error("Error adding flashcard: ", error);
         }
@@ -118,6 +129,18 @@ export default function Translate() {
                             </Message>
                         )}
 
+                        {errorMessage2 && (
+                            <Message color='red'>
+                                {errorMessage2}
+                            </Message>
+                        )}
+
+                        {successMessage && (
+                            <Message color='olive'>
+                                {successMessage}
+                            </Message>
+                        )}
+
                         <Segment.Inline>
                             <Button
                                 color="olive"
@@ -142,6 +165,7 @@ export default function Translate() {
                             >Manually Create Flashcard</Button>
                             </Link>
                         </Segment.Inline>
+                        
 
                     </Form>
                 </div>

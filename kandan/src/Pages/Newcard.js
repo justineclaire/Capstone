@@ -3,6 +3,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../firebase';
 import '../App.css';
+import { Message } from 'semantic-ui-react';
 
 function Newcard() {
   const [lang1, setLang1] = useState('');
@@ -10,6 +11,8 @@ function Newcard() {
   const [side1, setSide1] = useState('');
   const [side2, setSide2] = useState('');
   const [user, setUser] = useState(null);
+  const [errorMessage1, setErrorMessage1] = useState('');
+  const [errorMessage2, setErrorMessage2] = useState('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -24,8 +27,14 @@ function Newcard() {
   const handleCreateFlashcard = async (e) => {
     e.preventDefault();
 
-    if (!user) {
-      console.error('User not logged in');
+    const currentUser = auth.currentUser;
+        if (!currentUser) {
+            setErrorMessage1("Please login first");
+            return;
+        }
+
+    if (!lang1 || !lang2 || !side1 || !side2) {
+      setErrorMessage2("Please fill in all the fields");
       return;
     }
 
@@ -46,6 +55,8 @@ function Newcard() {
       setLang2('');
       setSide1('');
       setSide2('');
+      setErrorMessage1('');
+      setErrorMessage2('');
     } catch (error) {
       console.error('Error creating flashcard: ', error);
     }
@@ -104,6 +115,16 @@ function Newcard() {
             <button type="submit" className="btn btn-primary">
               Create Flashcard
             </button>
+            {errorMessage1 && (
+                <Message color='red'>
+                    {errorMessage1}
+                </Message>
+            )}
+            {errorMessage2 && (
+                <Message color='red'>
+                    {errorMessage2}
+                </Message>
+            )}
           </div>
         </div>
       </form>
