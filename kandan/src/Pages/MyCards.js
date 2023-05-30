@@ -64,19 +64,21 @@ function Flashcards() {
 
   if (!user) {
     // Display a message when user is not logged in
-    return <div>Please login to view your flashcards.</div>;
+    return <div className="notlog">Please login to view your flashcards.</div>;
   }
 
 
   return (
-    <div>
+  <div>
+    <h2 className="myfc-head">My Flashcards</h2>
+    <div className="myfc-container">
       {flashcards.map((flashcard) => (
         <div key={flashcard.id}>
-          <span>{flashcard.qlang} : {flashcard.question}</span>
-          <span>{flashcard.alang} : {flashcard.answer}</span>
+          <p className="indivcards">{flashcard.qlang}: {flashcard.question} - {flashcard.answer} ({flashcard.alang})</p>
         </div>
       ))}
     </div>
+  </div>  
     
   );
 

@@ -420,3 +420,29 @@ label {
 .mydecr:hover {
 	transform: scale(1.1);
 }
+
+/* CSS for MyCards.js */
+
+.myfc-container {
+  background-image: url(Components/babygreen.png);
+  text-align: left;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 24px;
+  margin: 0 auto;
+  margin-top: 45px;
+  width: 40%;
+  border: 3px solid #848582;
+  border-radius: 10px;
+  padding: 50px;
+}
+
+.indivcards {
+  padding-bottom: 20px;
+}
+
+.myfc-head {
+  padding-top: 30px;
+  text-align: center;
+  font-family: 'Azeret Mono', monospace;
+  font-size: 36px;
+}
