@@ -19,9 +19,9 @@ function FlashcardList({ flashcards }) {
       ) : (
         <p>No flashcards available.</p>
       )}
-      <div className="card-navigation">
-        <button onClick={handlePrevFlashcard}>Previous</button>
-        <button onClick={handleNextFlashcard}>Next</button>
+      <div className="mycard-navigation">
+        <button className="prevnext" onClick={handlePrevFlashcard}>Previous</button>
+        <button className="prevnext" onClick={handleNextFlashcard}>Next</button>
       </div>
     </div>
   );

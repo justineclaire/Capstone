@@ -61,7 +61,7 @@ function Flashcards() {
 
   if (!user) {
     // Display a message when user is not logged in
-    return <div>Please login to view your flashcards.</div>;
+    return <div className="notlog">Please login to view your flashcards.</div>;
   }
 
   return (

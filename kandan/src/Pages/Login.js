@@ -113,7 +113,6 @@ function Login() {
                   className='form-control mt-1'
                   type="password"
                   placeholder="Password..."
-                  type="password"
                   onChange={(event) => {
                       setLoginPassword(event.target.value);
                   }}
