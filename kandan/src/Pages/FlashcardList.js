@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import FlashcardQA from "./FlashcardQA";
 import { collection, updateDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
-
-
+import { Icon } from 'semantic-ui-react';
 
 function FlashcardList({ flashcards, setFlashcards }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -95,17 +94,11 @@ function FlashcardList({ flashcards, setFlashcards }) {
       )}
 
       <div className="mycard-navigation">
-        <button className="prevnext" onClick={handlePrevFlashcard}>Previous</button>
-        <button className="prevnext" onClick={handleNextFlashcard}>Next</button>
-
-      <div className="card-navigation">
-        <button onClick={handlePrevFlashcard}>Previous</button>
-        <button onClick={handleNextFlashcard}>Next</button>
-
-        <button onClick={handleIncrement}>Correct</button> 
-        <button onClick={handleDecrement}>Incorrect</button>
-
-      </div>
+        <button className="prevnext" onClick={handlePrevFlashcard}><Icon name='angle double left' />Previous</button>
+        <button className="prevnext" onClick={handleNextFlashcard}>Next <Icon name='angle double right' /></button>
+        <button className="myincr" onClick={handleIncrement}><Icon name='check' />Correct</button> 
+        <button className="mydecr" onClick={handleDecrement}><Icon name='x' />Incorrect</button>
+      </div>  
     </div>
   );
 
