@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from "../firebase";
 import FlashcardList from "./FlashcardList";
@@ -39,7 +39,9 @@ function Flashcards() {
           qlang: doc.data().lang1,
           alang: doc.data().lang2,
           question: doc.data().side1,
-          answer: doc.data().side2
+          answer: doc.data().side2,
+          Box: doc.data().Box,
+          id: doc.id
         }));
 
         setFlashcards(fetchedFlashcards);
@@ -64,10 +66,12 @@ function Flashcards() {
     return <div>Please login to view your flashcards.</div>;
   }
 
+
   return (
     <div className="mycontainer">
       <FlashcardList flashcards={flashcards} />
     </div>
+    
   );
 
 }
