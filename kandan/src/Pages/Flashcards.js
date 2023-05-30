@@ -69,6 +69,6 @@ function Flashcards() {
       <FlashcardList flashcards={flashcards} />
     </div>
   );
-}
 
+}
 export default Flashcards;

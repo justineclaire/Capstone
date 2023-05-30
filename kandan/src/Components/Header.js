@@ -30,6 +30,7 @@ function Header() {
       <Link to="/">
         <img id="header-logo" src={Logo} alt="Logo" />
       </Link>
+      <hr class="solid"></hr>
       {currentUserEmail ? (
         <button className="profile-button" onClick={handleLogout}>
           Logout

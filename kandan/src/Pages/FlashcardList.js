@@ -25,6 +25,7 @@ function FlashcardList({ flashcards }) {
       </div>
     </div>
   );
+
 }
 
 export default FlashcardList;

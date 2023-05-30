@@ -111,6 +111,7 @@ function Login() {
                 <label>Password</label>
                 <input
                   className='form-control mt-1'
+                  type="password"
                   placeholder="Password..."
                   type="password"
                   onChange={(event) => {

@@ -5,10 +5,17 @@
   text-align: center;
   padding-bottom: 10px;
 }
+
+hr.solid {
+  border-top: 3px solid #bbbbbbbb;
+  margin-left: 140px;
+  margin-right: 140px;
+}
+
 .profile-button {
   font-family: 'Azeret Mono', monospace;
   background-color: #C0D725;
-  color: black;
+  color: white;
   padding: 8px 12px;
   border: none;
   border-radius: 4px;
@@ -42,11 +49,24 @@
   outline: none !important;
 }
 
+/* CSS for footer */
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 4vh;
+  padding-top: 0.8vh;
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  background-color: #00b177;
+  color: white;
+}
 
 
 /* CSS for Flashcards */
 
-/* CSS for Flashcards */
 
 .mycontainer {
   max-width: 1000px;
@@ -101,13 +121,14 @@
 .sidebar {
   position: fixed;
   top: 0;
-  left: -300px;
-  width: 300px;
+  left: -200px;
+  width: 200px;
   height: 100%;
   background-color: #C0D725;
   transition: left 300ms ease-out;
   z-index: 1;
 }
+
 .sidebar.active {
   left: 0;
 }
@@ -116,9 +137,11 @@
   margin: 0;
   padding: 0;
 }
+
 .sidebar li {
   list-style: none;
 }
+
 .sidebar li a {
   font-family: 'Azeret Mono', monospace;
   font-size: 18px;
@@ -128,7 +151,13 @@
   color: #fff;
 }
 
+.sidebar li a:hover {
+  background-color: #cfcfcf;
+ 	color: black;
+}
+
 .hamburger {
+  border-radius: 1px;
   border: none;
   outline: 0;
   width: 50px;
@@ -162,7 +191,6 @@
 /* css for login */
 
 .App {
-  
   background-color: white;
 }
 
@@ -175,6 +203,7 @@
 }
 
 .Auth-form {
+  background-image: url(./Components/gradient.jpg);
   width: 420px;
   box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
   padding-top: 30px;
@@ -211,7 +240,9 @@ label {
 }
 
 .hpcontainer {
-  background-color: #C0D725;
+  background-image: url(Components/babygreen.png);
+  border: 3px solid #848582;
+  border-radius: 15px;
   padding-left: 200px;
   padding-right: 200px;
   max-width: 1200px;
@@ -232,7 +263,7 @@ label {
 }
 
 .tile:hover {
-  transform: scale(1.1);
+  transform: scale(1.07);
 }
 
 .tile-link {
@@ -249,6 +280,7 @@ label {
   width: 200px;
   height: 200px;
   object-fit: cover;
+  border: 1.9px solid black;
   border-radius: 50%;
   margin-bottom: 20px;
 }
@@ -261,7 +293,9 @@ label {
   font-weight: bold;
   margin: 0;
 }
-/*
+
+/* CSS for newcard */
+
 .Flashcards-container {
   display: flex;
   flex-direction: column;
@@ -272,6 +306,7 @@ label {
 .Filters {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
 }
 
