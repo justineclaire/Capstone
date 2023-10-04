@@ -51,7 +51,7 @@ function Flashcards() {
       } catch (error) {
         console.error("Error fetching flashcards:", error);
         setErrorMessage('Error fetching flashcards');
-        setFlashcardsLoaded(true); // Set the flag to indicate flashcards have been loaded
+        setFlashcardsLoaded(false);
       }
     };
 

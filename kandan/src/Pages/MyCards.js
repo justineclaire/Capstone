@@ -25,7 +25,7 @@ function Flashcards() {
       if (!user) {
         console.error('User not logged in');
         setErrorMessage('Please Login first to view your flashcards');
-        setFlashcardsLoaded(true); // Set the flag to indicate flashcards have been loaded
+        setFlashcardsLoaded(true); // Set true/false to indicate flashcards have been loaded
         return;
       }
       try {
@@ -50,7 +50,7 @@ function Flashcards() {
       } catch (error) {
         console.error("Error fetching flashcards:", error);
         setErrorMessage('Error fetching flashcards');
-        setFlashcardsLoaded(true); // Set the flag to indicate flashcards have been loaded
+        setFlashcardsLoaded(true); //DOUBLE CHECK THIS HMMMM
       }
     };
 
